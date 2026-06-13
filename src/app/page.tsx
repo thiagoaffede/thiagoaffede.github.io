@@ -41,18 +41,18 @@ const projects = [
 ];
 
 const skills = [
-  { name: "React", icon: "⚛️" },
-  { name: "Next.js", icon: "▲" },
-  { name: "TypeScript", icon: "📘" },
-  { name: "JavaScript", icon: "🟨" },
-  { name: "Node.js", icon: "💚" },
-  { name: "Laravel", icon: "🎯" },
-  { name: "PHP", icon: "🐘" },
-  { name: "Tailwind CSS", icon: "🎨" },
-  { name: "VB.NET", icon: "🔷" },
-  { name: "SQL", icon: "🗄️" },
-  { name: "Git & GitHub", icon: "🔀" },
-  { name: "HTML & CSS", icon: "🌐" },
+  { name: "React", icon: "react" },
+  { name: "Next.js", icon: "nextdotjs" },
+  { name: "TypeScript", icon: "typescript" },
+  { name: "JavaScript", icon: "javascript" },
+  { name: "Node.js", icon: "nodedotjs" },
+  { name: "Laravel", icon: "laravel" },
+  { name: "PHP", icon: "php" },
+  { name: "Tailwind CSS", icon: "tailwindcss" },
+  { name: ".NET / VB.NET", icon: "dotnet" },
+  { name: "PostgreSQL", icon: "postgresql" },
+  { name: "Git & GitHub", icon: "git" },
+  { name: "HTML & CSS", icon: "html5" },
 ];
 
 const socials = [
@@ -227,10 +227,17 @@ export default function Home() {
             {skills.map((s) => (
               <div
                 key={s.name}
-                className="flex flex-col items-center gap-3 p-5 rounded-xl border border-surface-700 bg-surface-800/50 hover:border-surface-500 hover:bg-surface-800 transition-all duration-300 group"
+                className="flex flex-col items-center gap-4 p-6 rounded-xl border border-surface-700 bg-surface-800/50 hover:border-accent/40 hover:bg-surface-800 hover:shadow-[0_0_20px_-5px_rgba(99,102,241,0.15)] transition-all duration-300 group"
               >
-                <span className="text-2xl group-hover:scale-110 transition-transform">{s.icon}</span>
-                <span className="text-sm font-medium text-surface-300 group-hover:text-white transition-colors">
+                <div className="w-10 h-10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <img
+                    src={`https://cdn.simpleicons.org/${s.icon}/ffffff`}
+                    alt={s.name}
+                    className="w-8 h-8 opacity-70 group-hover:opacity-100 transition-all duration-300"
+                    loading="lazy"
+                  />
+                </div>
+                <span className="text-sm font-medium text-surface-400 group-hover:text-white transition-colors text-center">
                   {s.name}
                 </span>
               </div>
