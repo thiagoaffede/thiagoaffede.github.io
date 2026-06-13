@@ -1,21 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 
 const projects = [
   {
-    title: "QZero Energy Building",
-    desc: "Plataforma web para climatización radiante, espejos inteligentes touch y termostatos WiFi. Configurador interactivo de espejos con vista previa en tiempo real.",
-    tags: ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "Nodemailer"],
-    href: "https://github.com/thiagoaffede/Qzero",
-    image: null,
+    title: "K9 — Gestión Canina",
+    desc: "Sistema completo para unidades caninas militares y policiales. Gestiona perros, vacunas, controles veterinarios, alimentación, entrenamiento, incidentes y asignación de guías con roles de acceso.",
+    tags: ["Node.js", "React", "Express", "PostgreSQL", "Supabase", "Tailwind"],
+    href: "https://github.com/thiagoaffede/K9",
+    icon: "🐾",
   },
   {
-    title: "Este Portfolio",
-    desc: "Portfolio personal desarrollado con Next.js y Tailwind CSS, deployado automáticamente con GitHub Actions en GitHub Pages.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "GitHub Pages"],
-    href: "https://github.com/thiagoaffede/thiagoaffede.github.io",
-    image: null,
+    title: "Contenedores — ERP",
+    desc: "Sistema de gestión para alquiler de contenedores. Maneja pedidos, obradores, liquidaciones automáticas con prorrateo, choferes y clientes. En producción en Bahía Blanca, Argentina.",
+    tags: ["VB.NET", "ASP.NET", "SQL Server", "Bootstrap", "jQuery"],
+    href: "https://github.com/thiagoaffede/Contenedores",
+    icon: "🗄️",
+  },
+  {
+    title: "Fixaro — Marketplace",
+    desc: "Plataforma inversa de servicios del hogar. Los usuarios publican su problema y profesionales cercanos responden con presupuestos. Geolocalización con privacidad y chat integrado.",
+    tags: ["Laravel", "PHP", "Livewire", "Alpine.js", "MySQL", "OpenStreetMap"],
+    href: "https://github.com/thiagoaffede/Fixaro",
+    icon: "🔧",
+  },
+  {
+    title: "Qzero SyS — ERP Climatización",
+    desc: "ERP completo para Qzero Energy Building. Gestiona productos, stock, hojas de obra, cuadros de potencia, encomiendas, precios y tickets de soporte con API REST.",
+    tags: ["Laravel", "PHP", "Blade", "MySQL", "DOMPDF", "PhpSpreadsheet"],
+    href: "https://github.com/thiagoaffede/Qzero-SyS",
+    icon: "⚡",
+  },
+  {
+    title: "Qzero Energy Building",
+    desc: "Plataforma web con configurador interactivo de espejos touch. Vista previa en tiempo real, selección de temperatura LED, y sistema de presupuestos por email.",
+    tags: ["Next.js", "React 19", "TypeScript", "Tailwind", "Nodemailer"],
+    href: "https://github.com/thiagoaffede/Qzero",
+    icon: "🪞",
   },
 ];
 
@@ -24,12 +45,14 @@ const skills = [
   { name: "Next.js", icon: "▲" },
   { name: "TypeScript", icon: "📘" },
   { name: "JavaScript", icon: "🟨" },
-  { name: "Tailwind CSS", icon: "🎨" },
   { name: "Node.js", icon: "💚" },
+  { name: "Laravel", icon: "🎯" },
+  { name: "PHP", icon: "🐘" },
+  { name: "Tailwind CSS", icon: "🎨" },
+  { name: "VB.NET", icon: "🔷" },
+  { name: "SQL", icon: "🗄️" },
   { name: "Git & GitHub", icon: "🔀" },
   { name: "HTML & CSS", icon: "🌐" },
-  { name: "SQL", icon: "🗄️" },
-  { name: "PHP", icon: "🐘" },
 ];
 
 const socials = [
@@ -43,15 +66,6 @@ const socials = [
     ),
   },
   {
-    label: "Email",
-    href: "mailto:thiagoaffede@gmail.com",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-      </svg>
-    ),
-  },
-  {
     label: "LinkedIn",
     href: "https://linkedin.com/in/thiagoaffede",
     icon: (
@@ -60,15 +74,42 @@ const socials = [
       </svg>
     ),
   },
+  {
+    label: "Email",
+    href: "mailto:thiagoaffede@hotmail.com",
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Home() {
-  const [copied, setCopied] = useState(false);
+  const [formState, setFormState] = useState<"idle" | "sending" | "sent">("idle");
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText("thiagoaffede@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormState("sending");
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    data.append("_captcha", "false");
+
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/thiagoaffede@hotmail.com", {
+        method: "POST",
+        body: data,
+      });
+      if (res.ok) {
+        setFormState("sent");
+        form.reset();
+        setTimeout(() => setFormState("idle"), 4000);
+      }
+    } catch {
+      setFormState("idle");
+      alert("Error al enviar. Intenta de nuevo.");
+    }
   };
 
   return (
@@ -100,12 +141,13 @@ export default function Home() {
               Thiago Affede
             </span>
           </h1>
-          <p className="text-lg sm:text-xl text-surface-300 max-w-xl mx-auto leading-relaxed mb-10">
-            Desarrollador web especializado en crear experiencias digitales modernas con{" "}
+          <p className="text-lg sm:text-xl text-surface-300 max-w-2xl mx-auto leading-relaxed mb-10">
+            Full-stack developer y creador de startups. Construyo sistemas web completos — desde
+            ERPs y marketplaces hasta plataformas interactivas — con{" "}
             <span className="text-white font-medium">React</span>,{" "}
-            <span className="text-white font-medium">Next.js</span> y{" "}
+            <span className="text-white font-medium">Laravel</span> y{" "}
             <span className="text-white font-medium">TypeScript</span>.
-            Me apasiona convertir ideas en productos funcionales y bien diseñados.
+            Cada proyecto es una nueva oportunidad de resolver problemas reales.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
@@ -134,34 +176,32 @@ export default function Home() {
             <span className="text-xs font-semibold tracking-widest uppercase text-accent">Portfolio</span>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mt-3 mb-4">Proyectos</h2>
             <p className="text-surface-400 max-w-lg mx-auto">
-              Algunos de los proyectos en los que he trabajado.
+              Startups y sistemas que he construido de punta a punta.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {projects.map((p, i) => (
               <a
                 key={i}
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block p-6 rounded-xl border border-surface-700 bg-surface-800/50 hover:border-surface-500 hover:bg-surface-800 transition-all duration-300"
+                className="group block p-5 rounded-xl border border-surface-700 bg-surface-800/50 hover:border-surface-500 hover:bg-surface-800 transition-all duration-300"
               >
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-lg bg-surface-700 flex items-center justify-center text-lg group-hover:bg-accent/20 transition-colors">
-                    📦
+                    {p.icon}
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-white group-hover:text-accent transition-colors">
-                      {p.title}
-                    </h3>
-                  </div>
+                  <h3 className="font-semibold text-white group-hover:text-accent transition-colors leading-tight">
+                    {p.title}
+                  </h3>
                 </div>
                 <p className="text-sm text-surface-400 leading-relaxed mb-4">{p.desc}</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {p.tags.map((t) => (
                     <span
                       key={t}
-                      className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-surface-700 text-surface-300"
+                      className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-surface-700 text-surface-300"
                     >
                       {t}
                     </span>
@@ -183,7 +223,7 @@ export default function Home() {
               Tecnologías y herramientas que uso en el día a día.
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {skills.map((s) => (
               <div
                 key={s.name}
@@ -201,13 +241,77 @@ export default function Home() {
 
       {/* CONTACT */}
       <section id="contact" className="py-24 px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <span className="text-xs font-semibold tracking-widest uppercase text-accent">Contacto</span>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mt-3 mb-4">Hablemos</h2>
-          <p className="text-surface-400 mb-10 max-w-md mx-auto">
-            Si te interesa mi trabajo o tenés algún proyecto en mente, no dudes en escribirme.
-          </p>
-          <div className="flex justify-center gap-4 mb-10">
+        <div className="max-w-xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-xs font-semibold tracking-widest uppercase text-accent">Contacto</span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mt-3 mb-4">Hablemos</h2>
+            <p className="text-surface-400 max-w-md mx-auto">
+              Si tenés un proyecto en mente o querés saber más sobre mi trabajo, escribime.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-surface-300 mb-1.5">
+                  Nombre
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="Tu nombre"
+                  className="w-full px-4 py-3 rounded-lg bg-surface-800 border border-surface-600 text-white text-sm placeholder-surface-400 outline-none focus:border-accent transition-colors"
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-surface-300 mb-1.5">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="tu@email.com"
+                  className="w-full px-4 py-3 rounded-lg bg-surface-800 border border-surface-600 text-white text-sm placeholder-surface-400 outline-none focus:border-accent transition-colors"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-surface-300 mb-1.5">
+                Mensaje
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows={5}
+                placeholder="Contame de qué se trata..."
+                className="w-full px-4 py-3 rounded-lg bg-surface-800 border border-surface-600 text-white text-sm placeholder-surface-400 outline-none focus:border-accent transition-colors resize-y"
+              />
+            </div>
+            <input type="text" name="_honey" className="hidden" />
+            <button
+              type="submit"
+              disabled={formState === "sending"}
+              className="w-full py-3.5 bg-accent hover:bg-accent-hover disabled:opacity-60 text-white rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              {formState === "sending" ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Enviando...
+                </>
+              ) : formState === "sent" ? (
+                "✓ Mensaje enviado!"
+              ) : (
+                "Enviar mensaje"
+              )}
+            </button>
+          </form>
+
+          <div className="flex justify-center gap-4 mt-10">
             {socials.map((s) => (
               <a
                 key={s.label}
@@ -221,15 +325,6 @@ export default function Home() {
               </a>
             ))}
           </div>
-          <button
-            onClick={copyEmail}
-            className="inline-flex items-center gap-2 bg-surface-800 border border-surface-600 hover:border-surface-400 text-surface-200 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-            </svg>
-            {copied ? "Copiado!" : "thiagoaffede@gmail.com"}
-          </button>
         </div>
       </section>
 
