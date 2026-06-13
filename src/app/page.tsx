@@ -7,35 +7,31 @@ const projects = [
     title: "K9 — Gestión Canina",
     desc: "Sistema completo para unidades caninas militares y policiales. Gestiona perros, vacunas, controles veterinarios, alimentación, entrenamiento, incidentes y asignación de guías con roles de acceso.",
     tags: ["Node.js", "React", "Express", "PostgreSQL", "Supabase", "Tailwind"],
-    href: "https://github.com/thiagoaffede/K9",
     icon: "🐾",
   },
   {
     title: "Contenedores — ERP",
     desc: "Sistema de gestión para alquiler de contenedores. Maneja pedidos, obradores, liquidaciones automáticas con prorrateo, choferes y clientes. En producción en Bahía Blanca, Argentina.",
     tags: ["VB.NET", "ASP.NET", "SQL Server", "Bootstrap", "jQuery"],
-    href: "https://github.com/thiagoaffede/Contenedores",
     icon: "🗄️",
   },
   {
     title: "Fixaro — Marketplace",
     desc: "Plataforma inversa de servicios del hogar. Los usuarios publican su problema y profesionales cercanos responden con presupuestos. Geolocalización con privacidad y chat integrado.",
     tags: ["Laravel", "PHP", "Livewire", "Alpine.js", "MySQL", "OpenStreetMap"],
-    href: "https://github.com/thiagoaffede/Fixaro",
     icon: "🔧",
   },
   {
     title: "Qzero SyS — ERP Climatización",
     desc: "ERP completo para Qzero Energy Building. Gestiona productos, stock, hojas de obra, cuadros de potencia, encomiendas, precios y tickets de soporte con API REST.",
     tags: ["Laravel", "PHP", "Blade", "MySQL", "DOMPDF", "PhpSpreadsheet"],
-    href: "https://github.com/thiagoaffede/Qzero-SyS",
     icon: "⚡",
   },
   {
     title: "Qzero Energy Building",
     desc: "Plataforma web con configurador interactivo de espejos touch. Vista previa en tiempo real, selección de temperatura LED, y sistema de presupuestos por email.",
     tags: ["Next.js", "React 19", "TypeScript", "Tailwind", "Nodemailer"],
-    href: "https://github.com/thiagoaffede/Qzero",
+    href: "https://www.qzero.pt/",
     icon: "🪞",
   },
 ];
@@ -180,35 +176,62 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {projects.map((p, i) => (
-              <a
-                key={i}
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block p-5 rounded-xl border border-surface-700 bg-surface-800/50 hover:border-surface-500 hover:bg-surface-800 transition-all duration-300"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-surface-700 flex items-center justify-center text-lg group-hover:bg-accent/20 transition-colors">
-                    {p.icon}
+            {projects.map((p, i) =>
+              p.href ? (
+                <a
+                  key={i}
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block p-5 rounded-xl border border-surface-700 bg-surface-800/50 hover:border-surface-500 hover:bg-surface-800 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-surface-700 flex items-center justify-center text-lg group-hover:bg-accent/20 transition-colors">
+                      {p.icon}
+                    </div>
+                    <h3 className="font-semibold text-white group-hover:text-accent transition-colors leading-tight">
+                      {p.title}
+                    </h3>
                   </div>
-                  <h3 className="font-semibold text-white group-hover:text-accent transition-colors leading-tight">
-                    {p.title}
-                  </h3>
+                  <p className="text-sm text-surface-400 leading-relaxed mb-4">{p.desc}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {p.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-surface-700 text-surface-300"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </a>
+              ) : (
+                <div
+                  key={i}
+                  className="group block p-5 rounded-xl border border-surface-700 bg-surface-800/50 cursor-default transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-surface-700 flex items-center justify-center text-lg transition-colors">
+                      {p.icon}
+                    </div>
+                    <h3 className="font-semibold text-white leading-tight">
+                      {p.title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-surface-400 leading-relaxed mb-4">{p.desc}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {p.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-surface-700 text-surface-300"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <p className="text-sm text-surface-400 leading-relaxed mb-4">{p.desc}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {p.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-surface-700 text-surface-300"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </a>
-            ))}
+              )
+            )}
           </div>
         </div>
       </section>
