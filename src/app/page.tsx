@@ -362,9 +362,7 @@ export default function Home() {
       <footer className="py-8 px-6 border-t border-surface-800">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-surface-500">
           <span>© {new Date().getFullYear()} Thiago Affede</span>
-          <span className="text-xs">
-            Hecho con Next.js · TypeScript · Tailwind CSS
-          </span>
+
         </div>
       </footer>
     </>
