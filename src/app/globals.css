@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-50: #f8f9fa;
+  --color-surface-100: #e9eaee;
+  --color-surface-200: #babec8;
+  --color-surface-300: #8b91a1;
+  --color-surface-400: #5c647b;
+  --color-surface-500: #3d4459;
+  --color-surface-600: #313649;
+  --color-surface-700: #252938;
+  --color-surface-800: #181b27;
+  --color-surface-900: #0c0e15;
+  --color-accent: #6366f1;
+  --color-accent-hover: #818cf8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-surface-900);
+  color: var(--color-surface-100);
+}
